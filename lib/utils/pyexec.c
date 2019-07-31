@@ -164,7 +164,7 @@ STATIC int parse_compile_execute(const void *source, mp_parse_input_kind_t input
             qstr_pool_info(&n_pool, &n_qstr, &n_str_data_bytes, &n_total_bytes);
             printf("qstr:\n  n_pool=" UINT_FMT "\n  n_qstr=" UINT_FMT "\n  "
                    "n_str_data_bytes=" UINT_FMT "\n  n_total_bytes=" UINT_FMT "\n",
-                   (unsigned)n_pool, (unsigned)n_qstr, (unsigned)n_str_data_bytes, (unsigned)n_total_bytes);
+                   (mp_uint_t)n_pool, (mp_uint_t)n_qstr, (mp_uint_t)n_str_data_bytes, (mp_uint_t)n_total_bytes);
         }
 
         #if MICROPY_ENABLE_GC
