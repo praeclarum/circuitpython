@@ -7,6 +7,8 @@
 // will still be able to execute pre-compiled scripts, compiled with mpy-cross.
 #define MICROPY_ENABLE_COMPILER     (1)
 
+#define MICROPY_NLR_SETJMP          (1)
+
 #define MICROPY_QSTR_BYTES_IN_HASH  (1)
 #define MICROPY_QSTR_EXTRA_POOL     mp_qstr_frozen_const_pool
 #define MICROPY_ALLOC_PATH_MAX      (256)
@@ -19,7 +21,6 @@
 #define MICROPY_COMP_DOUBLE_TUPLE_ASSIGN (0)
 #define MICROPY_COMP_TRIPLE_TUPLE_ASSIGN (0)
 #define MICROPY_MEM_STATS           (0)
-#define MICROPY_DEBUG_PRINTERS      (0)
 #define MICROPY_ENABLE_GC           (1)
 #define MICROPY_GC_ALLOC_THRESHOLD  (0)
 #define MICROPY_REPL_EVENT_DRIVEN   (0)
@@ -79,8 +80,8 @@ typedef long mp_off_t;
 // We need to provide a declaration/definition of alloca()
 #include <alloca.h>
 
-#define MICROPY_HW_BOARD_NAME "minimal"
-#define MICROPY_HW_MCU_NAME "unknown-cpu"
+#define MICROPY_HW_BOARD_NAME "dotnet"
+#define MICROPY_HW_MCU_NAME "clr"
 
 #define MICROPY_MIN_USE_STDOUT (1)
 
@@ -90,3 +91,6 @@ typedef long mp_off_t;
     const char *readline_hist[8];
 
 void assert_heap_ok(void);
+
+#define MICROPY_DEBUG_VERBOSE       (0)
+#define MICROPY_DEBUG_PRINTERS      (0)
