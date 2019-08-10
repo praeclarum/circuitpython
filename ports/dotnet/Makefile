@@ -49,11 +49,16 @@ SRC_C = \
 OBJ = $(PY_CORE_O) $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
 ALL_C = $(PY_CORE_O_BASENAME:.o=.c) $(SRC_C)
 
-all: $(BUILD)/Python.dll
+all: $(BUILD)/micropython $(BUILD)/Python.dll
 
 $(BUILD)/_frozen_mpy.c: frozentest.mpy $(BUILD)/genhdr/qstrdefs.generated.h
 	$(ECHO) "MISC freezing bytecode"
 	$(Q)$(TOP)/tools/mpy-tool.py -f -q $(BUILD)/genhdr/qstrdefs.preprocessed.h -mlongint-impl=none $< > $@
+
+$(BUILD)/micropython: $(OBJ)
+	$(ECHO) "LINKING $@"
+	$(Q)$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(Q)$(SIZE) $@
 
 $(BUILD)/Python.dll: $(ALL_C)
 	$(ECHO) "COMPILE $@"
