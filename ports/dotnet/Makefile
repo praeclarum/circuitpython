@@ -16,9 +16,10 @@ INC += -I.
 INC += -I$(TOP)
 INC += -I$(BUILD)
 
-CC = dotnet run --project /Users/fak/Dropbox/Projects/Iril/Cli/Cli.csproj --
-LD = dotnet run --project /Users/fak/Dropbox/Projects/Iril/Cli/Cli.csproj --
-CPP = gcc
+IRIL = dotnet run --project /Users/fak/Dropbox/Projects/Iril/Cli/Cli.csproj --
+
+CC = gcc
+LD = gcc
 
 CFLAGS = $(INC) -Wall -Werror -std=c99 $(COPT)
 LDFLAGS = -Wl
@@ -46,6 +47,7 @@ SRC_C = \
 	$(BUILD)/_frozen_mpy.c \
 
 OBJ = $(PY_CORE_O) $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
+ALL_C = $(PY_CORE_O_BASENAME:.o=.c) $(SRC_C)
 
 all: $(BUILD)/Python.dll
 
@@ -53,9 +55,9 @@ $(BUILD)/_frozen_mpy.c: frozentest.mpy $(BUILD)/genhdr/qstrdefs.generated.h
 	$(ECHO) "MISC freezing bytecode"
 	$(Q)$(TOP)/tools/mpy-tool.py -f -q $(BUILD)/genhdr/qstrdefs.preprocessed.h -mlongint-impl=none $< > $@
 
-$(BUILD)/Python.dll: $(OBJ)
-	$(ECHO) "LINK $@"
-	$(Q)$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
+$(BUILD)/Python.dll: $(ALL_C)
+	$(ECHO) "COMPILE $@"
+	$(Q)$(IRIL) $(CFLAGS) -o $@ $^ $(LIBS)
 	$(Q)$(SIZE) $@
 
 include $(TOP)/py/mkrules.mk
